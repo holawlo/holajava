@@ -2,8 +2,6 @@ package customers;
 
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
 @Getter
 public class CarOption {
     private final int id;
@@ -16,7 +14,6 @@ public class CarOption {
     }
 
     public CarOption(String name, int price) {
-
         this.name = name;
         this.price = price;
     }

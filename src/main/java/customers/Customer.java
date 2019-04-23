@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,7 +14,7 @@ public class Customer {
     private String lastName;
     private Integer age;
     private BigDecimal salary;
-    private List<customers.WishItem> wishList;
+    private List<WishItem> wishList;
 
     private static AtomicInteger sequenceGenerator = new AtomicInteger();
 
@@ -35,7 +34,7 @@ public class Customer {
         this(firstName, lastName, age, new BigDecimal(salary));
     }
 
-    public List<customers.WishItem> getWishList() {
+    public List<WishItem> getWishList() {
         return wishList;
     }
 

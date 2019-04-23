@@ -31,9 +31,9 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
         public Map<Integer, Customer> convertToMap(Customer[] customers) {
-        return Optional.ofNullable(customers) //?? ofNullable?
+        return Optional.ofNullable(customers)
                 .map(ca -> Arrays.stream(ca)
-                        .collect(Collectors.toMap(Customer::getId, Function.identity()))) //Function.identity()?
+                        .collect(Collectors.toMap(Customer::getId, Function.identity()))) //Function.identity() !
                 .orElse(Collections.emptyMap());
     }
 
@@ -44,7 +44,11 @@ public class CustomerService {
                 .reduce(ZERO, (p1, p2) -> p1.add(p2));
     }
 
+    //2. Wyświetl wyposażenie na które stać poszczególnych klientów (kolejność ich preferencji musi pozostać)
+
     public List<WishItem> getAffordableItemsIncludingOrder(Customer customer, Map<String, BigDecimal> carOptionNamePriceMap) {
+
+
         return null; //todo
     }
 
@@ -55,4 +59,7 @@ public class CustomerService {
     private BigDecimal getWishItemFinalPrice(Map<String, BigDecimal> carOptionNamePriceMap, WishItem wishItem) {
         return new BigDecimal(0); //todo
     }
+
+
+
 }

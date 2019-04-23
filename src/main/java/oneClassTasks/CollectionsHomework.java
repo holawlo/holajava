@@ -1,6 +1,7 @@
 package oneClassTasks;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CollectionsHomework {
 
@@ -10,6 +11,9 @@ public class CollectionsHomework {
         System.out.println(noWhite(animals));
         noWhiteWithStream(animals);
         System.out.println(mapOfElements(animals));
+        System.out.println(naturalOrderForStringAndNoDuplicates());
+        System.out.println(howManyElements());
+        System.out.println(method(animals));
     }
 
     private static List<String> noWhite(String[] tab) {
@@ -25,7 +29,6 @@ public class CollectionsHomework {
                 animalsList.add(s.trim());
             }
         }
-
         return animalsList;
     }
 
@@ -36,7 +39,7 @@ public class CollectionsHomework {
                 .filter(e -> e != null)
                 .map(e -> e.trim())
                 .filter(e -> !e.isEmpty())
-                .forEach(e -> System.out.println(e));
+                .forEach(e -> animalsList.add(e));
 
         return animalsList;
     }
@@ -61,5 +64,47 @@ public class CollectionsHomework {
 
         return mapOfElems;
     }
+
+    private static List<String> naturalOrderForStringAndNoDuplicates(){
+        List<String> orderList= noWhiteWithStream(animals);
+
+        orderList = orderList.stream()
+                .sorted(Comparator.naturalOrder())
+                .distinct()
+                .collect(Collectors.toList());
+
+        return orderList;
+    }
+
+    private static Map<String, Integer> howManyElements(){
+        List<String> orderList= noWhiteWithStream(animals);
+        Map<String,Integer> howMany = new HashMap<>();
+
+        for (String s : orderList) {
+            if (howMany.containsKey(s)){
+                howMany.replace(s,howMany.get(s) + 1);
+            }else{
+                howMany.put(s,1);
+            }
+        }
+        return howMany;
+    }
+
+    private static Map<Boolean,List<String>> method(String[] tab){
+        Map<Boolean,List<String>> map = new HashMap<>();
+
+        List<String> notEmptyStrings = Arrays.stream(tab)
+                .filter(a -> a != null)
+                .map(String::trim)
+                .filter(a -> !a.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
+
+        map.put(true,notEmptyStrings);
+        map.put(false,new ArrayList<>());
+
+        return map;
+    }
+
 
 }
