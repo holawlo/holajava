@@ -1,0 +1,19 @@
+Książki występują między liniami 256 a 161244
+
+Wersja łatwiejsza: Książka zawiera tylko tytuł i ID
+Przykład wersji łatwej:
+
+Tytuł:
+Coffee and Chicory:, by P. L. Simmonds
+ID:
+57340
+
+Wersja trudniejsza: Książka zawiera także dane dodatkowe (albo w postaci jednego Stringa, albo też w postaci kolekcji Stringów - trudniejsze)
+Przykład wersji trudnej:
+
+Tytuł:
+Ants Raudjalg, by Aino Kallas
+ID:
+57332
+Lista dodatkowych właściwości:
+[Subtitle: Virolainen kertomus, Language: Finnish]
