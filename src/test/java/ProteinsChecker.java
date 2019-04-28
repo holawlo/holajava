@@ -66,6 +66,8 @@ public class ProteinsChecker {
 //        for (int i = 0; i < chars.size() - 1; i = i + 2) {
 //            System.out.println(Arrays.equals(chars.get(i), chars.get(i + 1)));
 //        }
+
+        //parallel bo watki
         IntStream.iterate(0, n -> n + 2).parallel().limit(chars.size() / 2).forEachOrdered(i -> System.out.println(Thread.currentThread().getName()+" "+Arrays.equals(chars.get(i), chars.get(i + 1))));
 
 

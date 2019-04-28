@@ -29,8 +29,6 @@ public class CollectionComparisonUtil {
                 result.getOnlyInSecond().add(b);
             }
         }
-
-
         return result;
     }
 

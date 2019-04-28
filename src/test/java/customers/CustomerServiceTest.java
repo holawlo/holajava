@@ -23,6 +23,17 @@ class CustomerServiceTest {
 
     private CustomerService customerService = new CustomerService();
 
+    private CustomReport[] claims = new CustomReport[]{
+            new CustomReport(customerService.convertToList(people).get(0), "Za drogie!"),
+            new CustomReport(customerService.convertToList(people).get(1), "Za drogie!"),
+            new CustomReport(customerService.convertToList(people).get(2), "Za drogie!"),
+            new CustomReport(customerService.convertToList(people).get(3), "Za drogie!" + ", " + "Cholera! Nie podoba mi się"),
+            new CustomReport(customerService.convertToList(people).get(4), "Za drogie!" + ", " + "Cholera! Nie podoba mi się" + ", " + "Nie trzeba mi tego!"),
+            new CustomReport(customerService.convertToList(people).get(5), "Nie trzeba mi tego!"),
+            new CustomReport(customerService.convertToList(people).get(6), "Nie trzeba mi tego!"),
+            new CustomReport(customerService.convertToList(people).get(7), "Nie trzeba mi tego!")
+    };
+
     @Test
     void eachCustomerShouldHaveAutoincrementedIdStartingFromOne() {
         Assertions.assertEquals(5, people[4].getId());
@@ -59,6 +70,42 @@ class CustomerServiceTest {
         Map<Integer, Customer> customerMap = customerService.convertToMap(people);
         Assertions.assertEquals(8, customerMap.size());
         Assertions.assertEquals(people[4], customerMap.get(5));
+    }
+
+    @Test
+    void checkComplains(){
+        Map<String,String> soFForbiddenMap = new HashMap<>();
+        soFForbiddenMap.put("szlag","kurczę");
+        soFForbiddenMap.put("Cholera","motyla noga");
+        soFForbiddenMap.put("oCieBaton","ja nie mogę");
+
+//        Arrays.stream(claims)
+//                .map(c -> c.getReason())
+//                .forEach(reason -> {
+//                    for (String s : soFForbiddenMap.keySet()) {
+//                        if (reason.contains(s)){
+//                            reason.replaceAll(s,soFForbiddenMap.get(s));
+//                        } else {
+//                            continue;
+//                        }
+//                    }
+//                });
+
+        // ze zmiana raportu setterem
+        for (CustomReport claim : claims) {
+            for (String key : soFForbiddenMap.keySet()) {
+                if (claim.getReason().contains(key)){
+                    claim.setReason(claim.getReason().replaceAll(key,soFForbiddenMap.get(key)));
+                } else {
+                    continue;
+                }
+            }
+        }
+
+        //ze zmiana raportu tylko w princie
+        
+
+        Assertions.assertEquals("Za drogie!, motyla noga! Nie podoba mi się", claims[3].getReason());
     }
 
     //Napisz metodę, która zwróci mapę
