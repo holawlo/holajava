@@ -20,7 +20,7 @@ public class CollectionComparisonUtilTest {
     void compareSimpleCollections() { //zakładamy, że wartości w stringu są tym samym co liczbowe -> "1" == 1
         List<String> list = Lists.newArrayList("1", "2", "3");
         Set<Integer> set = Sets.newHashSet(1, 2, 3);
-        CollectionComparisonComparator<String, Integer> stringAndNumberEqualityComparator = (a, b) -> a.equals(b.toString()); //todo nalezy okreslic w jaki sposob porownywac napisy i liczby
+        CollectionComparisonComparator<String, Integer> stringAndNumberEqualityComparator = (a, b) -> a.equals(b.toString());
         CollectionComparisonResult<String, Integer> result = CollectionComparisonUtil.compareCollections(list, set, stringAndNumberEqualityComparator);
 
         Assertions.assertTrue(result.isSame());
@@ -45,7 +45,7 @@ public class CollectionComparisonUtilTest {
         }
 
         long start = System.currentTimeMillis();
-        CollectionComparisonComparator<AnotherUserClass, UserForTests> usersEqualityComparator = (a, b) -> a.getUsername().equals(b.getEMail()); //todo nalezy okreslic jak porownywac obiekty jednej i drugiej klasy
+        CollectionComparisonComparator<AnotherUserClass, UserForTests> usersEqualityComparator = (a, b) -> a.getUsername().equals(b.getEMail());
         CollectionComparisonResult<AnotherUserClass, UserForTests> result = CollectionComparisonUtil.compareCollections(listA, listB, usersEqualityComparator);
         System.out.println("TOOK " + (System.currentTimeMillis() - start));
 
@@ -67,7 +67,7 @@ public class CollectionComparisonUtilTest {
         }
 
         long start = System.currentTimeMillis();
-        CollectionComparisonComparator<Integer, Long> numbersEqualityComparator = null; //todo należy określić sposób porówania Integer i Long
+        CollectionComparisonComparator<Integer, Long> numbersEqualityComparator = (a,b) -> a.equals(b.intValue());
         CollectionComparisonResult<Integer, Long> result = CollectionComparisonUtil.compareCollections(listC, listD, numbersEqualityComparator);
         System.out.println("TOOK " + (System.currentTimeMillis() - start));
 

@@ -1,4 +1,3 @@
-/*
 package customers;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -6,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class WishListsTest {
@@ -28,8 +28,9 @@ public class WishListsTest {
     };
 
     private static Map<Integer, Customer> customerMap;
-    private static CustomerService customerService = null;//new CustomerService();
-    private static CarOptionService carOptionService = null;//new CarOptionService();
+    private static CustomerService customerService = new CustomerService();
+    private static CarOptionService carOptionService = new CarOptionService();
+    private static Map<String, BigDecimal> carOptionNamePriceMap = carOptionService.convertToNamePriceMap(items);
 
     @BeforeAll
     public static void prepareWishLists() {
@@ -53,23 +54,22 @@ public class WishListsTest {
 
     private static WishItem parseWishItem(String s) {
         String[] split = s.split(":");
-        return new WishItem(split[0],split.length > 1 ? Integer.valueOf(split[1]) : 1);
+        return new WishItem(split[0], split.length > 1 ? Integer.valueOf(split[1]) : 1);
     }
 
-    //1. Wyświetl ile zabraknie poszczególnym klientom do wybrania wszystkich elementów wyposażenia
-    //@Test
+    //1. Wyświetl ile zabraknie poszczególnym klientom do wybrania wszystkich elementów wyposażeni
+    @Test
     public void wishItemsOverBudget() {
-        Map<String, BigDecimal> carOptionNamePriceMap = carOptionService.convertToNamePriceMap(items);
-        Map<Customer, BigDecimal> customerWishListCostMap = new HashMap<>(); //todo
-//mapa customer-ilego to wyniesie
-        // mam mapę id-customer <-- w środku siedzi wishlista od razu
-        // trzeba zrobić stream z customerMap i wrzucić do mapy Function
+        Map<Customer, BigDecimal> customerWishListCostMap;
 
+        customerWishListCostMap = customerService.convertToList(people).stream() //lecą customerzy
+                .collect(Collectors.toMap(Function.identity(),
+                        val -> val.getWishList().stream()
+                                .map(wi -> carOptionNamePriceMap.get(wi.getName()).multiply(BigDecimal.valueOf(wi.getQuantity())))
+                                .reduce(BigDecimal.valueOf(0),(a, b) -> a.add(b))
+                ));
 
-        customerService.convertToList(people).stream()
-                .collect(Collectors.toList());
-        
-        
+        System.out.println(customerWishListCostMap);
 
 
         customerWishListCostMap.entrySet().stream()
@@ -81,8 +81,8 @@ public class WishListsTest {
     //5. Wyświetl wyposażenie na które stać poszczególnych klientów (należy wybrać jak najwięcej elementów, ale kolejność preferencji ma znaczenie)
     @Test
     public void whatCustomersCanAffordIncludingOrder() {
-        Map<String, BigDecimal> carOptionNamePriceMap = carOptionService.convertToNamePriceMap(items);
-        Map<Customer, List<WishItem>> customerAffordableItemsMap = new HashMap<>(); //todo
+
+        Map<Customer, List<WishItem>> customerAffordableItemsMap = new HashMap<>();
 
         System.out.println("Car options with prices:");
         carOptionNamePriceMap.forEach((name, price) -> System.out.println("\t" + name + ": " + price));
@@ -96,8 +96,7 @@ public class WishListsTest {
     //4. Wyświetl wyposażenie na które stać poszczególnych klientów (należy wybrać jak najwięcej elementów, ale kolejność preferencji nie ma znaczenia)
     @Test
     public void whatCustomersCanAffordMaxItems() {
-        Map<String, BigDecimal> carOptionNamePriceMap = carOptionService.convertToNamePriceMap(items);
-        Map<Customer, List<WishItem>> customerAffordableItemsMap = new HashMap<>(); //todo
+        Map<Customer, List<WishItem>> customerAffordableItemsMap = new HashMap<>();
 
         System.out.println("Car options with prices:");
         carOptionNamePriceMap.forEach((name, price) -> System.out.println("\t" + name + ": " + price));
@@ -111,9 +110,8 @@ public class WishListsTest {
     //3. Wyświetl klienta, którego stać na wszystkie elementy i zostanie mu najwięcej pięniędzy
     @Test
     public void customerWithMaximumMoneyLeftAfterBuingAllWishList() {
-        Map<String, BigDecimal> carOptionNamePriceMap = carOptionService.convertToNamePriceMap(items);
-        Map<Customer, BigDecimal> customerWishListCostMap = new HashMap<>(); //todo
-
+        Map<Customer, BigDecimal> customerWishListCostMap = new HashMap<>();
+//bedzie mapa z zad1. customer-calosciowy koszt wishlisty
         customerWishListCostMap.forEach((c, p) -> System.out.println(c + " :: " + p + " -> " + c.getSalary().subtract(p)));
 
         Optional<Map.Entry<Customer, BigDecimal>> customerWithMostMoneyLeft = customerWishListCostMap.entrySet().stream()
@@ -128,4 +126,4 @@ public class WishListsTest {
         );
     }
 
-}*/
+}

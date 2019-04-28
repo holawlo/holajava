@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.summingInt;
+import static java.util.stream.Collectors.*;
 
 class CustomerServiceTest {
     private static final Customer[] people = new Customer[]{
@@ -120,6 +120,10 @@ class CustomerServiceTest {
             }
         }
         return resultMap;
+
+//        return customerService.convertToList(people).stream()
+//                .collect(Collectors.groupingBy(c -> c.getFirstName(), Collectors.groupingBy(c -> c.getSalary()), Collectors.counting()));
+
     }
 
     //7. Napisz metodę, która zwróci mapę <imię,<suma_zarobków_osób_o_taki_imien

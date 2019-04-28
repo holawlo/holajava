@@ -43,23 +43,4 @@ public class CustomerService {
                         .multiply(carOptionNamePriceMap.get(wishItem.getName())))
                 .reduce(ZERO, (p1, p2) -> p1.add(p2));
     }
-
-    //2. Wyświetl wyposażenie na które stać poszczególnych klientów (kolejność ich preferencji musi pozostać)
-
-    public List<WishItem> getAffordableItemsIncludingOrder(Customer customer, Map<String, BigDecimal> carOptionNamePriceMap) {
-
-
-        return null; //todo
-    }
-
-    public List<WishItem> getAffordableItemsMaxQuantity(Customer customer, Map<String, BigDecimal> carOptionNamePriceMap) {
-        return null; //todo
-    }
-
-    private BigDecimal getWishItemFinalPrice(Map<String, BigDecimal> carOptionNamePriceMap, WishItem wishItem) {
-        return new BigDecimal(0); //todo
-    }
-
-
-
 }
