@@ -103,7 +103,7 @@ class CustomerServiceTest {
         }
 
         //ze zmiana raportu tylko w princie
-        
+
 
         Assertions.assertEquals("Za drogie!, motyla noga! Nie podoba mi się", claims[3].getReason());
     }

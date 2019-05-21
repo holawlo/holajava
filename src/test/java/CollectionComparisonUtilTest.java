@@ -98,7 +98,7 @@ public class CollectionComparisonUtilTest {
         }
 
         long start = System.currentTimeMillis();
-        Function<UserForTests, String> userCompareValueProvider = null; //todo należy podać sposób porównywania elementów klasy User
+        Function<UserForTests, String> userCompareValueProvider = a -> a.getEMail();
         CollectionComparisonResult<UserForTests, UserForTests> result = CollectionComparisonUtil.compareCollections(listA, listB, userCompareValueProvider);
         System.out.println("TOOK " + (System.currentTimeMillis() - start));
 
@@ -121,7 +121,7 @@ public class CollectionComparisonUtilTest {
         }
 
         long start = System.currentTimeMillis();
-        Function<Number, Integer> numberCompareValueProvider = null; //todo należy podać sposób porównywania wyciągania wartości możliwej do porównania liczb całkowitych
+        Function<Number, Integer> numberCompareValueProvider = a -> a.intValue();
         CollectionComparisonResult<? extends Number, ? extends Number> result = CollectionComparisonUtil.compareCollections(listC, listD, numberCompareValueProvider);
         System.out.println("TOOK " + (System.currentTimeMillis() - start));
 
@@ -139,7 +139,6 @@ public class CollectionComparisonUtilTest {
         private String lastName;
         private String eMail;
         private String password;
-        //private UserAddress userAddress;
     }
 
     @Getter

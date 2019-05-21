@@ -1,10 +1,10 @@
 package collectionscomparator;
 
-import org.apache.commons.lang3.NotImplementedException;
-
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class CollectionComparisonUtil {
 
@@ -34,6 +34,23 @@ public class CollectionComparisonUtil {
 
 
     public static <ELEMENT, KEY> CollectionComparisonResult<ELEMENT, ELEMENT> compareCollections(Collection<ELEMENT> collectionA, Collection<ELEMENT> collectionB, Function<ELEMENT, KEY> keyProvider) {
-        throw new NotImplementedException("Do dzieła!"); //todo
+        CollectionComparisonResult<ELEMENT, ELEMENT> result = new CollectionComparisonResult<>();
+        Map<KEY, ELEMENT> mapForBCollection = collectionB.stream().collect(Collectors.toMap(keyProvider, b -> b));
+        Map<KEY, ELEMENT> mapForACollection = collectionA.stream().collect(Collectors.toMap(keyProvider, a -> a));
+
+        for (ELEMENT a : collectionA) {
+            if (mapForBCollection.containsKey(keyProvider.apply(a))) {
+                result.getCommon().put(a, mapForBCollection.get(keyProvider.apply(a)));//miesiac
+            } else {
+                result.getOnlyInFirst().add(a);
+            }
+        }
+
+        for (ELEMENT b : collectionB) {
+            if (!mapForACollection.containsKey(keyProvider.apply(b))) {
+                result.getOnlyInSecond().add(b);
+            }
+        }
+        return result;
     }
 }
